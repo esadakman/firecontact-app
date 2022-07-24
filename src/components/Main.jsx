@@ -1,10 +1,8 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import Form from "./form/Form";
 import Table from "./table/Table";
 import { makeStyles } from "@mui/styles";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { useState } from "react";
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -19,23 +17,8 @@ const useStyles = makeStyles({
 });
 const Main = () => {
   const classes = useStyles();
-  const [info, setInfo] = useState([]);
-  const usersCollectionRef = collection(db, "fireContact");
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      // console.log(data);
-      setInfo(
-        data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-      // console.log(info);
-    };
+  const [data, setData] = useState([]);
 
-    getUsers();
-  }, []);
   return (
     <div className={classes.mainContainer}>
       <Grid
@@ -48,10 +31,10 @@ const Main = () => {
         }}
       >
         <Grid>
-          <Form usersCollectionRef={usersCollectionRef} />
+          <Form data={data} setData={setData} />
         </Grid>
         <Grid item>
-          <Table info={info} />
+          <Table data={data} setData={setData} />
         </Grid>
       </Grid>
     </div>
@@ -59,3 +42,21 @@ const Main = () => {
 };
 
 export default Main;
+
+// const [info, setInfo] = useState([]);
+//   const usersCollectionRef = collection(db, "fireContact");
+//   useEffect(() => {
+//     const getUsers = async () => {
+//       const data = await getDocs(usersCollectionRef);
+//       // console.log(data);
+//       setInfo(
+//         data.docs.map((doc) => ({
+//           ...doc.data(),
+//           id: doc.id,
+//         }))
+//       );
+//       // console.log(info);
+//     };
+
+//     getUsers();
+//   }, []);

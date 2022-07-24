@@ -1,4 +1,3 @@
-import * as React from "react";
 import { makeStyles } from "@mui/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,6 +9,9 @@ import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Container, Typography } from "@mui/material";
+import { ref, remove } from "firebase/database";
+import { db } from "../../utils/firebase";
+import { useState } from "react";
 // import { useEffect, useState } from "react";
 // import { db } from "../../utils/firebase";
 // import { collection, getDocs } from "firebase/firestore";
@@ -40,11 +42,31 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "1rem",
     padding: "1rem",
   },
+  buttons: {
+    transition: "all 0.5s  ",
+    cursor: "pointer",
+    "&:hover": {
+      // animation: `transform: "scale(1.2)", 0.6s   `,
+      transform: `scale(1.2)  `,
+      color: "red",
+    },
+  },
 }));
 
-export default function CustomizedTables({ info }) {
+export default function CustomizedTables({ data, setData }) {
   const classes = useStyles();
-  //
+  // const [isEdit, setIsEdit] = useState(false);
+  // const [tempUuid, setTempUuid] = useState(second);
+  // ? DELETE
+  const handleDelete = (data) => {
+    remove(ref(db, `/${data.uuid}`));
+  };
+
+  // ! edit
+  const handleEdit = (data) => {
+    // setIsEdit(true);
+    // setTempUuid(data.uuid);
+  };
 
   return (
     <Container>
@@ -63,17 +85,19 @@ export default function CustomizedTables({ info }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {info.map((user, index) => (
+            {data.map((info, index) => (
               <TableRow key={index}>
                 <TableCell component="th" scope="row">
-                  {user.name}
+                  {info.name}
                 </TableCell>
-                <TableCell align="right">{user.phoneNumber}</TableCell>
-                <TableCell align="right">{user.gender}</TableCell>
-                <TableCell align="right">
-                  <DeleteForeverIcon />
+                <TableCell align="right" sx={{ overflow: "hidden" }}>
+                  {info.tel}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="right">{info.gender}</TableCell>
+                <TableCell align="right" onClick={() => handleDelete(info)}>
+                  <DeleteForeverIcon className={classes.buttons} />
+                </TableCell>
+                <TableCell align="right" onClick={() => handleEdit(info)}>
                   <EditIcon />
                 </TableCell>
               </TableRow>

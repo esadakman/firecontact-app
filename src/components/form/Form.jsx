@@ -16,8 +16,18 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
-import { addDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../../utils/firebase";
+import {
+  ref,
+  set,
+  get,
+  update,
+  remove,
+  child,
+  onValue,
+} from "firebase/database";
+import { uid } from "uid";
 
 const useStyles = makeStyles({
   title: {
@@ -29,40 +39,58 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Form({ usersCollectionRef }) {
+export default function Form({ data, setData }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [tel, setTel] = useState("");
-  const [newUser, setNewUser] = useState();
+  const [newUser, setNewUser] = useState([]);
   // console.log(tel);
 
   const handlePhone = (newValue) => {
     setTel(newValue);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // const data = { name: `${name}`, gender: `${gender}`, tel: `${tel}` };
-    // console.log(data);
+  // ? write
+  const writeToDatabase = (e) => {
+    e.preventDefault();
+    const uuid = uid();
 
-    createContact();
+    set(ref(db, `/${uuid}`), {
+      // name: `${name}`,
+      // gender: `${gender}`,
+      // tel: `${tel}`,
+      name,
+      gender,
+      tel,
+      uuid,
+    });
+    setName("");
+    setGender("");
+    handlePhone("");
   };
-  // const usersCollectionRef = collection(db, "fireContact");
 
-  const createContact = async () => {
-    // ! yeni kullanıcı eklemek için firebase'in addDoc func.'ını kullandım
-    await addDoc(usersCollectionRef, { name: name, gender: gender, tel: tel });
-  };
+  // !read
+  useEffect(() => {
+    onValue(ref(db), (snapshot) => {
+      setData([]);
+      const data = snapshot.val();
+      if (data !== null) {
+        Object.values(data).map((item) =>
+          setData((oldArray) => [...oldArray, item])
+        );
+      }
+    });
+  }, []);
 
-  // ! database info
-
+  // console.log(data);
   return (
     <Container>
       <Typography component="h1" variant="h4" className={classes.title}>
         ADD CONTACT
       </Typography>
+
       <Grid
         item
         sx={{
@@ -76,7 +104,7 @@ export default function Form({ usersCollectionRef }) {
           <Box>
             <Box
               component="form"
-              onSubmit={createContact}
+              onSubmit={writeToDatabase}
               noValidate
               sx={{ mt: 3 }}
             >
@@ -89,6 +117,7 @@ export default function Form({ usersCollectionRef }) {
                 name="name"
                 placeholder="Name"
                 autoComplete="name"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 InputProps={{
                   startAdornment: (
@@ -140,3 +169,9 @@ export default function Form({ usersCollectionRef }) {
     </Container>
   );
 }
+
+// const handleSubmit = (event) => {
+//   event.preventDefault();
+
+//   console.log(newUser);
+// };
