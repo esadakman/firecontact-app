@@ -16,9 +16,9 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "@mui/styles";
-import { useEffect, useState } from "react";
-import { db } from "../../utils/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { useState } from "react";
+import { addDoc } from "firebase/firestore";
+
 const useStyles = makeStyles({
   title: {
     border: "1px solid red",
@@ -29,13 +29,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Form() {
+export default function Form({ usersCollectionRef }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [tel, setTel] = useState("");
-  console.log(tel);
+  const [newUser, setNewUser] = useState();
+  // console.log(tel);
 
   const handlePhone = (newValue) => {
     setTel(newValue);
@@ -43,26 +44,19 @@ export default function Form() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = { name: name };
+    // const data = { name: `${name}`, gender: `${gender}`, tel: `${tel}` };
+    // console.log(data);
+
+    createContact();
+  };
+  // const usersCollectionRef = collection(db, "fireContact");
+
+  const createContact = async () => {
+    // ! yeni kullanıcı eklemek için firebase'in addDoc func.'ını kullandım
+    await addDoc(usersCollectionRef, { name: name, gender: gender, tel: tel });
   };
 
-  const [info, setInfo] = useState([]);
-  const usersCollectionRef = collection(db, "fireContact");
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      // console.log(data);
-      setInfo(
-        data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-      // console.log(info);
-    };
-
-    getUsers();
-  }, []);
+  // ! database info
 
   return (
     <Container>
@@ -82,7 +76,7 @@ export default function Form() {
           <Box>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={createContact}
               noValidate
               sx={{ mt: 3 }}
             >

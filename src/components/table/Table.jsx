@@ -10,6 +10,9 @@ import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Container, Typography } from "@mui/material";
+// import { useEffect, useState } from "react";
+// import { db } from "../../utils/firebase";
+// import { collection, getDocs } from "firebase/firestore";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -39,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTables() {
+export default function CustomizedTables({ info }) {
   const classes = useStyles();
   //
+
   return (
     <Container>
       <Typography component="h1" variant="h4" className={classes.title}>
@@ -59,13 +63,13 @@ export default function CustomizedTables() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {info.map((user, index) => (
+              <TableRow key={index}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {user.name}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
+                <TableCell align="right">{user.phoneNumber}</TableCell>
+                <TableCell align="right">{user.gender}</TableCell>
                 <TableCell align="right">
                   <DeleteForeverIcon />
                 </TableCell>
