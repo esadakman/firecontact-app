@@ -20,6 +20,11 @@ import { useEffect, useState } from "react";
 import { db } from "../../utils/firebase";
 import { ref, set, onValue, update } from "firebase/database";
 import { uid } from "uid";
+import {
+  toastError,
+  toastSuccess,
+  toastWarn,
+} from "../../utils/customToastify";
 
 const useStyles = makeStyles({
   title: {
@@ -37,7 +42,6 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [tel, setTel] = useState("");
-
   const handlePhone = (newValue) => {
     setTel(newValue);
   };
@@ -45,17 +49,22 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
   // ? write
   const writeToDatabase = (e) => {
     e.preventDefault();
-    const uuid = uid();
+    if (name && gender && tel) {
+      const uuid = uid();
 
-    set(ref(db, `/${uuid}`), {
-      name,
-      gender,
-      tel,
-      uuid,
-    });
-    setName("");
-    setGender("");
-    handlePhone("");
+      set(ref(db, `/${uuid}`), {
+        name,
+        gender,
+        tel,
+        uuid,
+      });
+      setName("");
+      setGender("");
+      handlePhone("");
+      toastSuccess("New Contact Added Successfully");
+    } else {
+      toastError("Please fill out all fields.");
+    }
   };
 
   // !read
@@ -119,7 +128,7 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
                 required
                 name="name"
                 placeholder="Name"
-                autoComplete="name"
+                // autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 InputProps={{
@@ -139,6 +148,7 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
                 id="phone"
                 name="phone"
                 label="Phone"
+                required
               />
               {/* //!================================================ */}
               <FormControl sx={{ width: "100%", minWidth: "140", mt: 2 }}>
@@ -150,6 +160,7 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
                   name="gender"
                   onChange={(e) => setGender(e.target.value)}
                   fullWidth
+                  required
                 >
                   <MenuItem value="Male">Male</MenuItem>
                   <MenuItem value="Female">Female</MenuItem>
@@ -196,9 +207,3 @@ export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
     </Container>
   );
 }
-
-// const handleSubmit = (event) => {
-//   event.preventDefault();
-
-//   console.log(newUser);
-// };

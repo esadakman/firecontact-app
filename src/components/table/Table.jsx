@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { Container, Typography, TablePagination } from "@mui/material";
+import { Container, Typography, TablePagination, Button } from "@mui/material";
 import { ref, remove } from "firebase/database";
 import { db } from "../../utils/firebase";
 import { useState } from "react";
@@ -18,10 +18,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100% !important",
   },
   tableContainer: {
+    // width: "100% !important",
     borderRadius: 15,
     bgcolor: "red",
     margin: " auto",
     marginTop: "2rem",
+    maxHeight: "460px",
   },
   title: {
     border: "1px solid red",
@@ -29,15 +31,6 @@ const useStyles = makeStyles((theme) => ({
     background: "white",
     borderRadius: "1rem",
     padding: "1rem",
-  },
-  buttons: {
-    transition: "all 0.5s  ",
-    cursor: "pointer",
-    "&:hover": {
-      // animation: `transform: "scale(1.2)", 0.6s   `,
-      transform: `scale(1.2)  `,
-      color: "red",
-    },
   },
 }));
 
@@ -51,7 +44,7 @@ export default function CustomizedTables({
 
   // * Pagination
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -84,10 +77,18 @@ export default function CustomizedTables({
           <TableHead>
             <TableRow>
               <TableCell>Username</TableCell>
-              <TableCell align="right">Phone Number</TableCell>
-              <TableCell align="right">Gender</TableCell>
-              <TableCell align="right">Delete</TableCell>
-              <TableCell align="right">Edit</TableCell>
+              <TableCell align="center" padding="none">
+                Phone Number
+              </TableCell>
+              <TableCell align="center" padding="none">
+                Gender
+              </TableCell>
+              <TableCell align="center" padding="none">
+                Delete
+              </TableCell>
+              <TableCell align="center" padding="none">
+                Edit
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -105,10 +106,14 @@ export default function CustomizedTables({
                   <TableCell align="right">{info.tel}</TableCell>
                   <TableCell align="right">{info.gender}</TableCell>
                   <TableCell align="right" onClick={() => handleDelete(info)}>
-                    <DeleteForeverIcon className={classes.buttons} />
+                    <Button color="error" sx={{ minWidth: "0" }}>
+                      <DeleteForeverIcon />
+                    </Button>
                   </TableCell>
                   <TableCell align="right" onClick={() => handleEdit(info)}>
-                    <EditIcon className={classes.buttons} />
+                    <Button sx={{ minWidth: "0" }}>
+                      <EditIcon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -126,7 +131,7 @@ export default function CustomizedTables({
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[5, 10, 15]}
+          rowsPerPageOptions={[3, 5, 7]}
         />
       </TableContainer>
     </Container>
