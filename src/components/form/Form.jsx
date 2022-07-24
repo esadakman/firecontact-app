@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -16,6 +16,9 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "@mui/styles";
+import { useEffect, useState } from "react";
+import { db } from "../../utils/firebase";
+import { collection, getDocs } from "firebase/firestore";
 const useStyles = makeStyles({
   title: {
     border: "1px solid red",
@@ -27,28 +30,39 @@ const useStyles = makeStyles({
 });
 
 export default function Form() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      phone: data.get("phone"),
-      gender: data.get("gender"),
-    });
-  };
+  const classes = useStyles();
 
-  const [gender, setGender] = React.useState("");
-
-  const handleChange = (event) => {
-    setGender(event.target.value);
-  };
-  const [tel, setTel] = React.useState("");
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [tel, setTel] = useState("");
+  console.log(tel);
 
   const handlePhone = (newValue) => {
     setTel(newValue);
   };
 
-  const classes = useStyles();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = { name: name };
+  };
+
+  const [info, setInfo] = useState([]);
+  const usersCollectionRef = collection(db, "fireContact");
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      // console.log(data);
+      setInfo(
+        data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+      // console.log(info);
+    };
+
+    getUsers();
+  }, []);
 
   return (
     <Container>
@@ -81,6 +95,7 @@ export default function Form() {
                 name="name"
                 placeholder="Name"
                 autoComplete="name"
+                onChange={(e) => setName(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -107,7 +122,7 @@ export default function Form() {
                   label="Gender"
                   id="gender"
                   name="gender"
-                  onChange={handleChange}
+                  onChange={(e) => setGender(e.target.value)}
                   fullWidth
                 >
                   <MenuItem value="Male">Male</MenuItem>
