@@ -18,7 +18,8 @@ const useStyles = makeStyles({
 const Main = () => {
   const classes = useStyles();
   const [data, setData] = useState([]);
-
+  const [isEdit, setIsEdit] = useState(false);
+  const [tempUuid, setTempUuid] = useState("");
   return (
     <div className={classes.mainContainer}>
       <Grid
@@ -31,10 +32,20 @@ const Main = () => {
         }}
       >
         <Grid>
-          <Form data={data} setData={setData} />
+          <Form
+            setData={setData}
+            isEdit={isEdit}
+            tempUuid={tempUuid}
+            setIsEdit={setIsEdit}
+          />
         </Grid>
         <Grid item>
-          <Table data={data} setData={setData} />
+          <Table
+            data={data}
+            setIsEdit={setIsEdit}
+            setTempUuid={setTempUuid}
+            isEdit={isEdit}
+          />
         </Grid>
       </Grid>
     </div>

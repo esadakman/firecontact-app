@@ -11,22 +11,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Container, Typography } from "@mui/material";
 import { ref, remove } from "firebase/database";
 import { db } from "../../utils/firebase";
-import { useState } from "react";
-// import { useEffect, useState } from "react";
-// import { db } from "../../utils/firebase";
-// import { collection, getDocs } from "firebase/firestore";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -53,10 +37,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTables({ data, setData }) {
+export default function CustomizedTables({
+  data,
+  setIsEdit,
+  setTempUuid,
+  isEdit,
+}) {
   const classes = useStyles();
-  // const [isEdit, setIsEdit] = useState(false);
-  // const [tempUuid, setTempUuid] = useState(second);
+
   // ? DELETE
   const handleDelete = (data) => {
     remove(ref(db, `/${data.uuid}`));
@@ -64,8 +52,8 @@ export default function CustomizedTables({ data, setData }) {
 
   // ! edit
   const handleEdit = (data) => {
-    // setIsEdit(true);
-    // setTempUuid(data.uuid);
+    setIsEdit(!isEdit);
+    setTempUuid(data.uuid);
   };
 
   return (
@@ -87,18 +75,20 @@ export default function CustomizedTables({ data, setData }) {
           <TableBody>
             {data.map((info, index) => (
               <TableRow key={index}>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ maxWidth: "130px", overflow: "auto" }}
+                >
                   {info.name}
                 </TableCell>
-                <TableCell align="right" sx={{ overflow: "hidden" }}>
-                  {info.tel}
-                </TableCell>
+                <TableCell align="right">{info.tel}</TableCell>
                 <TableCell align="right">{info.gender}</TableCell>
                 <TableCell align="right" onClick={() => handleDelete(info)}>
                   <DeleteForeverIcon className={classes.buttons} />
                 </TableCell>
                 <TableCell align="right" onClick={() => handleEdit(info)}>
-                  <EditIcon />
+                  <EditIcon className={classes.buttons} />
                 </TableCell>
               </TableRow>
             ))}

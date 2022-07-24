@@ -18,15 +18,7 @@ import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
 import { db } from "../../utils/firebase";
-import {
-  ref,
-  set,
-  get,
-  update,
-  remove,
-  child,
-  onValue,
-} from "firebase/database";
+import { ref, set, onValue, update } from "firebase/database";
 import { uid } from "uid";
 
 const useStyles = makeStyles({
@@ -39,14 +31,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Form({ data, setData }) {
+export default function Form({ setData, tempUuid, isEdit, setIsEdit }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [tel, setTel] = useState("");
-  const [newUser, setNewUser] = useState([]);
-  // console.log(tel);
 
   const handlePhone = (newValue) => {
     setTel(newValue);
@@ -58,9 +48,6 @@ export default function Form({ data, setData }) {
     const uuid = uid();
 
     set(ref(db, `/${uuid}`), {
-      // name: `${name}`,
-      // gender: `${gender}`,
-      // tel: `${tel}`,
       name,
       gender,
       tel,
@@ -84,6 +71,22 @@ export default function Form({ data, setData }) {
     });
   }, []);
 
+  // ! update
+  const handleSubmitChange = (e) => {
+    e.preventDefault();
+
+    update(ref(db, `/${tempUuid}`), {
+      name,
+      gender,
+      tel,
+      uuid: tempUuid,
+    });
+    setName("");
+    setGender("");
+    handlePhone("");
+    setIsEdit(false);
+  };
+
   // console.log(data);
   return (
     <Container>
@@ -104,7 +107,7 @@ export default function Form({ data, setData }) {
           <Box>
             <Box
               component="form"
-              onSubmit={writeToDatabase}
+              // onSubmit={writeToDatabase}
               noValidate
               sx={{ mt: 3 }}
             >
@@ -154,14 +157,38 @@ export default function Form({ data, setData }) {
                 </Select>
               </FormControl>
               {/* //!================================================ */}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                ADD CONTACT
-              </Button>
+              {isEdit ? (
+                <>
+                  <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, width: "50%" }}
+                    onClick={handleSubmitChange}
+                  >
+                    Submit Change
+                  </Button>
+                  <Button
+                    type="submit"
+                    color="error"
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, ml: 2, width: "45%" }}
+                    onClick={() => setIsEdit(false)}
+                  >
+                    Cancel Change
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={writeToDatabase}
+                >
+                  ADD CONTACT
+                </Button>
+              )}
             </Box>
           </Box>
         </Container>
