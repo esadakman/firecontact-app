@@ -2,36 +2,37 @@ import { Grid } from "@mui/material";
 import React from "react";
 import Form from "./form/Form";
 import Table from "./table/Table";
-import { makeStyles, styled } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
+const useStyles = makeStyles({
+  mainContainer: {
+    minHeight: "100vh",
+    // minWidth: "100vw",
+    display: "flex",
+    border: "3px solid red",
+    backgroundImage: `url("https://picsum.photos/1600/900")`,
+    backgroundSize: "cover",
+    // backgroundPosition: "cover;",
   },
-  tableContainer: {
-    borderRadius: 15,
-    bgcolor: "red",
-    margin: " auto",
-    // width: "500px !important",
-  },
-}));
+});
 const Main = () => {
+  const classes = useStyles();
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
-      <Grid container sx={{ flexWrap: "noWrap" }}>
-        <Grid item xs={5} /* md={4} lg={4} */>
+    <div className={classes.mainContainer}>
+      <Grid
+        container
+        sx={{
+          justifyContent: "space-around",
+          alignItems: "center",
+          gap: "5rem",
+          margin: "1rem",
+        }}
+      >
+        <Grid>
           <Form />
         </Grid>
-        <Grid item xs={6} /* md={8} lg={8} */>
-          {/* <Grid item xs={4} md={5} lg={4}> */}
+        <Grid item>
           <Table />
         </Grid>
       </Grid>
