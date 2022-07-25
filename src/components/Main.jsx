@@ -30,7 +30,7 @@ const Main = () => {
             padding: "5rem 0",
           }}
         >
-          <Grid item xs={8} sm={7} md={5} lg={4}>
+          <Grid item xs={10} sm={7} md={5} lg={4}>
             <Form setData={setData} />
           </Grid>
           <Grid item xs={12} sm={11} md={7} lg={6}>

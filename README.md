@@ -7,9 +7,8 @@ Build a FireContact App using ReactJS.
 ## Description
 
 - Project aims to create a FireContact App.
-- In this project, I designed a Movie App with many features. I provided the movie information with the api I got from the `https://www.themoviedb.org/documentation/api` site. And I used Firebase for authentication.
-- The user can log in and register with both their email address and their Google account.
-- Access to movie details is restricted for visitors who do not log in.
+- In this project, I designed a Contact App with many features.I used Firebase Realtime Database for database.
+- User can update the list by entering name, phone number and gender information.And also user can delete or fix any contact from table.
 
 ## Project Link
 

@@ -21,11 +21,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%",
+  maxWidth: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
+  borderRadius: "1rem",
+  p: 3,
 };
 
 export default function EditModal({ info }) {
@@ -119,7 +121,7 @@ export default function EditModal({ info }) {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, width: "45%" }}
+            sx={{ mt: 3, width: { xs: "100%", md: "45%" } }}
             onClick={handleSubmitChange}
           >
             Submit Change
@@ -128,7 +130,11 @@ export default function EditModal({ info }) {
             type="submit"
             color="error"
             variant="contained"
-            sx={{ mt: 3, ml: 2, width: "48%" }}
+            sx={{
+              mt: 3,
+              marginLeft: { xs: "0", md: "2rem" },
+              width: { xs: "100%", md: "45%" },
+            }}
             onClick={handleClose}
           >
             Cancel Change
