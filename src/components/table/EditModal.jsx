@@ -87,7 +87,7 @@ export default function EditModal({ info }) {
             id="phone"
             label="Phone"
             name="phone"
-            type="number"
+            type="tel"
             value={tel}
             onChange={(e) => setTel(e.target.value)}
             required
