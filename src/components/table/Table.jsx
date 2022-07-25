@@ -7,26 +7,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
 import { Container, Typography, TablePagination, Button } from "@mui/material";
 import { ref, remove } from "firebase/database";
 import { db } from "../../utils/firebase";
 import { useState } from "react";
-
+import EditModal from "./EditModal";
+import { toastSuccess } from "../../utils/customToastify";
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "100% !important",
+    width: "90% !important",
+    maxWidth: "90%",
+    marginTop: "2rem",
   },
   tableContainer: {
-    // width: "100% !important",
-    borderRadius: 15,
-    bgcolor: "red",
-    margin: " auto",
+    borderRadius: ".5rem !important",
     marginTop: "2rem",
-    maxHeight: "460px",
+    maxHeight: "380px",
   },
   title: {
-    border: "1px solid red",
     textAlign: "center",
     background: "white",
     borderRadius: "1rem",
@@ -34,12 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTables({
-  data,
-  setIsEdit,
-  setTempUuid,
-  isEdit,
-}) {
+export default function CustomizedTables({ data }) {
   const classes = useStyles();
 
   // * Pagination
@@ -56,15 +49,10 @@ export default function CustomizedTables({
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-  // ? DELETE
+  // ? DELETEContact
   const handleDelete = (data) => {
     remove(ref(db, `/${data.uuid}`));
-  };
-
-  // ! edit
-  const handleEdit = (data) => {
-    setIsEdit(!isEdit);
-    setTempUuid(data.uuid);
+    toastSuccess("Your contact succesfully deleted");
   };
 
   return (
@@ -73,22 +61,21 @@ export default function CustomizedTables({
         Contact List
       </Typography>
       <TableContainer component={Paper} className={classes.tableContainer}>
-        <Table>
+        <Table sx={{ overflow: "auto" }}>
           <TableHead>
-            <TableRow>
-              <TableCell>Username</TableCell>
+            <TableRow hover={true}>
+              <TableCell align="center">Username</TableCell>
               <TableCell align="center" padding="none">
                 Phone Number
               </TableCell>
               <TableCell align="center" padding="none">
                 Gender
               </TableCell>
+
               <TableCell align="center" padding="none">
                 Delete
               </TableCell>
-              <TableCell align="center" padding="none">
-                Edit
-              </TableCell>
+              <TableCell align="center">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,28 +84,37 @@ export default function CustomizedTables({
               .map((info, index) => (
                 <TableRow key={index}>
                   <TableCell
+                    align="center"
                     component="th"
                     scope="row"
-                    sx={{ maxWidth: "130px", overflow: "auto" }}
+                    sx={{ maxWidth: "90px", overflow: "auto" }}
                   >
                     {info.name}
                   </TableCell>
-                  <TableCell align="right">{info.tel}</TableCell>
-                  <TableCell align="right">{info.gender}</TableCell>
-                  <TableCell align="right" onClick={() => handleDelete(info)}>
+
+                  <TableCell align="center" padding="none">
+                    {info.tel}
+                  </TableCell>
+                  <TableCell align="center" padding="none">
+                    {info.gender}
+                  </TableCell>
+
+                  <TableCell
+                    align="center"
+                    padding="none"
+                    onClick={() => handleDelete(info)}
+                  >
                     <Button color="error" sx={{ minWidth: "0" }}>
                       <DeleteForeverIcon />
                     </Button>
                   </TableCell>
-                  <TableCell align="right" onClick={() => handleEdit(info)}>
-                    <Button sx={{ minWidth: "0" }}>
-                      <EditIcon />
-                    </Button>
+                  <TableCell align="center" padding="none">
+                    <EditModal info={info} />
                   </TableCell>
                 </TableRow>
               ))}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 62 * emptyRows }}>
+              <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
