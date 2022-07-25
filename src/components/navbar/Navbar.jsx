@@ -32,9 +32,10 @@ const NavBar = () => {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
+            onClick={() => openInNewTab("https://github.com/esadakman")}
           >
             {`<esad/>`}
           </Typography>
@@ -51,9 +52,10 @@ const NavBar = () => {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
+            onClick={() => openInNewTab("https://github.com/esadakman")}
           >
             {`<esad/>`}
           </Typography>
