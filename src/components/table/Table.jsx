@@ -7,7 +7,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Container, Typography, TablePagination, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  TablePagination,
+  Button,
+  Box,
+} from "@mui/material";
 import { ref, remove } from "firebase/database";
 import { db } from "../../utils/firebase";
 import { useState } from "react";
@@ -143,9 +149,11 @@ export default function CustomizedTables({ data }) {
             />
           </>
         ) : (
-          <Typography align="center" p={2} variant="h5">
-            Nothing Found
-          </Typography>
+          <div style={{ height: "370px" }}>
+            <Typography align="center" p={2} variant="h5" height={"5rem"}>
+              Nothing Found
+            </Typography>
+          </div>
         )}
       </TableContainer>
     </Container>
