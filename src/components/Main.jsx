@@ -4,6 +4,7 @@ import Table from "./table/Table";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import NavBar from "./navbar/Navbar";
 const useStyles = makeStyles({
   mainContainer: {
     minHeight: "100vh",
@@ -17,23 +18,23 @@ const Main = () => {
 
   const classes = useStyles();
   const [data, setData] = useState([]);
-  const [tempUuid, setTempUuid] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.mainContainer}>
+        <NavBar />
         <Grid
           container
           sx={{
             justifyContent: "space-around",
             alignItems: "center",
-            margin: "1rem 0",
+            padding: "5rem 0",
           }}
         >
           <Grid item xs={8} sm={7} md={5} lg={4}>
-            <Form setData={setData} tempUuid={tempUuid} />
+            <Form setData={setData} />
           </Grid>
           <Grid item xs={12} sm={11} md={7} lg={6}>
-            <Table data={data} setTempUuid={setTempUuid} />
+            <Table data={data} />
           </Grid>
         </Grid>
       </div>

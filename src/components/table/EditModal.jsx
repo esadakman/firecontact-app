@@ -15,6 +15,7 @@ import { useState } from "react";
 import { ref, update } from "firebase/database";
 import { db } from "../../utils/firebase";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { toastSuccess } from "../../utils/customToastify";
 const style = {
   position: "absolute",
   top: "50%",
@@ -45,6 +46,7 @@ export default function EditModal({ info }) {
       tel,
       uuid: info.uuid,
     });
+    toastSuccess("Contact Succesfully Updated");
     handleClose();
   };
   return (

@@ -13,7 +13,7 @@ import { db } from "../../utils/firebase";
 import { useState } from "react";
 import EditModal from "./EditModal";
 import { toastSuccess } from "../../utils/customToastify";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   container: {
     width: "90% !important",
     maxWidth: "90%",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "1rem",
     padding: "1rem",
   },
-}));
+});
 
 export default function CustomizedTables({ data }) {
   const classes = useStyles();
@@ -52,7 +52,7 @@ export default function CustomizedTables({ data }) {
   // ? DELETEContact
   const handleDelete = (data) => {
     remove(ref(db, `/${data.uuid}`));
-    toastSuccess("Your contact succesfully deleted");
+    toastSuccess("Contact succesfully deleted");
   };
 
   return (
@@ -92,7 +92,11 @@ export default function CustomizedTables({ data }) {
                     {info.name}
                   </TableCell>
 
-                  <TableCell align="center" padding="none">
+                  <TableCell
+                    align="center"
+                    padding="none"
+                    sx={{ minWidth: "110px", overflow: "auto" }}
+                  >
                     {info.tel}
                   </TableCell>
                   <TableCell align="center" padding="none">
