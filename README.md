@@ -23,6 +23,8 @@ SOLUTION
 ├── public
 │     └── index.html
 ├── src
+│    ├── assets
+│    │       └── [images]
 │    ├── components
 │    │       ├── Home.jsx
 │    │       ├── form

@@ -35,6 +35,7 @@ const NavBar = () => {
               textDecoration: "none",
               cursor: "pointer",
             }}
+            title="My Github"
             onClick={() => openInNewTab("https://github.com/esadakman")}
           >
             {`<esad/>`}
@@ -55,6 +56,7 @@ const NavBar = () => {
               textDecoration: "none",
               cursor: "pointer",
             }}
+            title="My Github"
             onClick={() => openInNewTab("https://github.com/esadakman")}
           >
             {`<esad/>`}
