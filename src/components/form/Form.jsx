@@ -29,7 +29,7 @@ export default function Form({ setData, tempUuid }) {
   const [gender, setGender] = useState("");
   const [tel, setTel] = useState("");
   const handlePhone = (newValue) => {
-    setTel(newValue);
+    setTel(newValue.slice(0, 17));
   };
 
   // ? writeData
@@ -126,8 +126,9 @@ export default function Form({ setData, tempUuid }) {
                 id="phone"
                 name="phone"
                 label="Phone"
-                required
-                maxLength="10"
+                inputExtraProps={{
+                  required: true,
+                }}
               />
               {/* //!================================================ */}
               <FormControl sx={{ width: "100%", minWidth: "140", mt: 2 }}>
@@ -164,27 +165,3 @@ export default function Form({ setData, tempUuid }) {
     </Container>
   );
 }
-
-//  {isEdit ? (
-//                 <>
-//                   <Button
-//                     type="submit"
-//                     // fullWidth
-//                     variant="contained"
-//                     sx={{ mt: 3, mb: 2, width: "50%" }}
-//                     onClick={handleSubmitChange}
-//                   >
-//                     Submit Change
-//                   </Button>
-//                   <Button
-//                     type="submit"
-//                     color="error"
-//                     variant="contained"
-//                     sx={{ mt: 3, mb: 2, ml: 2, width: "45%" }}
-//                     onClick={() => setIsEdit(false)}
-//                   >
-//                     Cancel Change
-//                   </Button>
-//                 </>
-//               ) : (
-// )}

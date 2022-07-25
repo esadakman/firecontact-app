@@ -89,7 +89,9 @@ export default function EditModal({ info }) {
             name="phone"
             type="tel"
             value={tel}
-            onChange={(e) => setTel(e.target.value)}
+            onChange={(e) =>
+              setTel(!isNaN(e.target.value) ? e.target.value.slice(0, 15) : "")
+            }
             required
             InputProps={{
               startAdornment: (

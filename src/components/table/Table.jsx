@@ -77,7 +77,9 @@ export default function CustomizedTables({ data }) {
                   <TableCell align="center" padding="none">
                     Delete
                   </TableCell>
-                  <TableCell align="center">Edit</TableCell>
+                  <TableCell align="center" padding="none">
+                    Edit
+                  </TableCell>
                 </TableRow>
               </TableHead>
               {data.length > 0 ? (
