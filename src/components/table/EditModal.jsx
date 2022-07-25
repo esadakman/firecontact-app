@@ -24,8 +24,7 @@ const style = {
   width: "90%",
   maxWidth: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  boxShadow: 44,
   borderRadius: "1rem",
   p: 3,
 };

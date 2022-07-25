@@ -75,3 +75,5 @@ $ npm start / yarn start
 ```
 
 ### Preview of the Project
+
+![fire](https://user-images.githubusercontent.com/98649983/180781321-afb20b7b-d2d7-40c7-b10f-cd7aaa99adf2.gif)
