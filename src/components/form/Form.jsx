@@ -127,6 +127,7 @@ export default function Form({ setData, tempUuid }) {
                 name="phone"
                 label="Phone"
                 required
+                maxlength="10"
               />
               {/* //!================================================ */}
               <FormControl sx={{ width: "100%", minWidth: "140", mt: 2 }}>

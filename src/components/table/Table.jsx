@@ -61,78 +61,92 @@ export default function CustomizedTables({ data }) {
         Contact List
       </Typography>
       <TableContainer component={Paper} className={classes.tableContainer}>
-        <Table sx={{ overflow: "auto" }}>
-          <TableHead>
-            <TableRow hover={true}>
-              <TableCell align="center">Username</TableCell>
-              <TableCell align="center" padding="none">
-                Phone Number
-              </TableCell>
-              <TableCell align="center" padding="none">
-                Gender
-              </TableCell>
-
-              <TableCell align="center" padding="none">
-                Delete
-              </TableCell>
-              <TableCell align="center">Edit</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((info, index) => (
-                <TableRow key={index}>
-                  <TableCell
-                    align="center"
-                    component="th"
-                    scope="row"
-                    sx={{ maxWidth: "90px", overflow: "auto" }}
-                  >
-                    {info.name}
-                  </TableCell>
-
-                  <TableCell
-                    align="center"
-                    padding="none"
-                    sx={{ minWidth: "110px", overflow: "auto" }}
-                  >
-                    {info.tel}
+        {data.length > 0 ? (
+          <>
+            <Table sx={{ overflow: "auto" }}>
+              <TableHead>
+                <TableRow hover={true}>
+                  <TableCell align="center">Username</TableCell>
+                  <TableCell align="center" padding="none">
+                    Phone Number
                   </TableCell>
                   <TableCell align="center" padding="none">
-                    {info.gender}
+                    Gender
                   </TableCell>
 
-                  <TableCell
-                    align="center"
-                    padding="none"
-                    onClick={() => handleDelete(info)}
-                  >
-                    <Button color="error" sx={{ minWidth: "0" }}>
-                      <DeleteForeverIcon />
-                    </Button>
-                  </TableCell>
                   <TableCell align="center" padding="none">
-                    <EditModal info={info} />
+                    Delete
                   </TableCell>
+                  <TableCell align="center">Edit</TableCell>
                 </TableRow>
-              ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={data.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[3, 5, 7]}
-        />
+              </TableHead>
+              {data.length > 0 ? (
+                <TableBody>
+                  {data
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((info, index) => (
+                      <TableRow key={index}>
+                        <TableCell
+                          align="center"
+                          component="th"
+                          scope="row"
+                          sx={{ maxWidth: "90px", overflow: "auto" }}
+                        >
+                          {info.name}
+                        </TableCell>
+
+                        <TableCell
+                          align="center"
+                          padding="none"
+                          sx={{ minWidth: "110px", overflow: "auto" }}
+                        >
+                          {info.tel}
+                        </TableCell>
+                        <TableCell align="center" padding="none">
+                          {info.gender}
+                        </TableCell>
+
+                        <TableCell
+                          align="center"
+                          padding="none"
+                          onClick={() => handleDelete(info)}
+                        >
+                          <Button color="error" sx={{ minWidth: "0" }}>
+                            <DeleteForeverIcon />
+                          </Button>
+                        </TableCell>
+                        <TableCell align="center" padding="none">
+                          <EditModal info={info} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              ) : (
+                <TableBody>
+                  <p>Nothing Found</p>
+                </TableBody>
+              )}
+            </Table>
+            <TablePagination
+              component="div"
+              count={data.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[3, 5, 7]}
+            />
+          </>
+        ) : (
+          <Typography align="center" p={2} variant="h5">
+            Nothing Found
+          </Typography>
+        )}
       </TableContainer>
     </Container>
   );
