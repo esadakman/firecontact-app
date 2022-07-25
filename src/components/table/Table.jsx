@@ -15,14 +15,14 @@ import EditModal from "./EditModal";
 import { toastSuccess } from "../../utils/customToastify";
 const useStyles = makeStyles({
   container: {
-    width: "90% !important",
-    maxWidth: "90%",
+    width: "95% !important",
+    maxWidth: "95%",
     marginTop: "2rem",
   },
   tableContainer: {
     borderRadius: ".5rem !important",
     marginTop: "2rem",
-    maxHeight: "380px",
+    maxHeight: "400px",
   },
   title: {
     textAlign: "center",
@@ -66,18 +66,18 @@ export default function CustomizedTables({ data }) {
             <Table sx={{ overflow: "auto" }}>
               <TableHead>
                 <TableRow hover={true}>
-                  <TableCell align="center">Username</TableCell>
+                  <TableCell align="center" padding="none">
+                    Username
+                  </TableCell>
                   <TableCell align="center" padding="none">
                     Phone Number
                   </TableCell>
-                  <TableCell align="center" padding="none">
-                    Gender
-                  </TableCell>
+                  <TableCell align="center">Gender</TableCell>
 
                   <TableCell align="center" padding="none">
                     Delete
                   </TableCell>
-                  <TableCell align="center" padding="none">
+                  <TableCell align="center" /* padding="none" */>
                     Edit
                   </TableCell>
                 </TableRow>
@@ -86,21 +86,30 @@ export default function CustomizedTables({ data }) {
                 <TableBody>
                   {data
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((info, index) => (
-                      <TableRow key={index}>
+                    .map((info) => (
+                      <TableRow key={info.uuid}>
                         <TableCell
                           align="center"
                           component="th"
                           scope="row"
-                          sx={{ maxWidth: "90px", overflow: "auto" }}
+                          padding="none"
+                          sx={{
+                            // paddingLeft: "1rem",
+                            minWidth: "150px",
+                            overflow: "auto",
+                          }}
                         >
                           {info.name}
                         </TableCell>
 
                         <TableCell
                           align="center"
-                          padding="none"
-                          sx={{ minWidth: "110px", overflow: "auto" }}
+                          padding="normal"
+                          sx={{
+                            minWidth: "110px",
+                            overflow: "auto",
+                            // paddingRight: ".1rem 0",
+                          }}
                         >
                           {info.tel}
                         </TableCell>
@@ -111,6 +120,7 @@ export default function CustomizedTables({ data }) {
                         <TableCell
                           align="center"
                           padding="none"
+                          sx={{ padding: "0 .5rem" }}
                           onClick={() => handleDelete(info)}
                         >
                           <Button color="error" sx={{ minWidth: "0" }}>

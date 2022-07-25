@@ -126,9 +126,9 @@ export default function Form({ setData, tempUuid }) {
                 id="phone"
                 name="phone"
                 label="Phone"
-                inputExtraProps={{
-                  required: true,
-                }}
+                // inputExtraProps={{
+                //   required: true,
+                // }}
               />
               {/* //!================================================ */}
               <FormControl sx={{ width: "100%", minWidth: "140", mt: 2 }}>
