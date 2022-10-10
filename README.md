@@ -70,7 +70,7 @@ To run this project;
 - After these you can run the project as usual =>
 
 ```
-$ git clone https://github.com/esadakman/firecontact-app.git
+$ git clone https://github.com/esadakman/reactjs-fireContact.git
 $ cd ./firecontact-app
 $ npm install / yarn
 $ npm start / yarn start
